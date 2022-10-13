@@ -1,7 +1,5 @@
 package com.rick.chap_04_tree.content_03_binarysearchtree;
 
-import java.nio.BufferUnderflowException;
-
 /**
  * @Author: Rick
  * @Date: 2022/10/13 15:29
@@ -42,40 +40,41 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         return contains(x, root);
     }
 
-    public AnyType findMin() {
+    public AnyType findMin() throws UnderflowException {
         if (isEmpty())
-            throw new BufferUnderflowException();
+            throw new UnderflowException();
         return findMin(root).element;
     }
 
-    public AnyType findMin() {
+    public AnyType findMax() throws UnderflowException {
         if (isEmpty())
-            throw new BufferUnderflowException();
+            throw new UnderflowException();
         return findMax(root).element;
     }
 
-    public void insert(AnyType X) {
+    public void insert(AnyType x) {
         root = insert(x, root);
     }
 
-    public void remove(AnyType X) {
+    public void remove(AnyType x) {
         root = insert(x, root);
     }
 
 
-    public void printTree(AnyType X) {
+    public void printTree(AnyType x) {
         root = insert(x, root);
     }
 
 
     /**
      * Internal method to find an item in a subtree
+     *
      * @param x is item to search for
      * @param t th enode that roots the subtree
      * @return true if the item is found; false otherwise
      */
     private boolean contains(AnyType x, BinaryNode<AnyType> t) {
-        if (t == null){
+        if (t == null) {
             return false;
         }
 
@@ -90,6 +89,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
 
     /**
      * Internal method to find the largest item in a subtree.
+     *
      * @param t the node that roots the subtree
      * @return node containing the smallest item
      */
@@ -103,6 +103,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
 
     /**
      * Internal method to find the largest item in a subtree
+     *
      * @param t the node that roots the subtree.
      * @return node containing the largest item.
      */
@@ -114,15 +115,51 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         return t;
     }
 
-    private BinaryNode<AnyType> insert(AnyType x, BinaryNode<AnyType> t) {
+    /**
+     * Internal method to insert into a subtree
+     *
+     * @param x the item to insert
+     * @param t the node that roots the subtree.
+     * @return the new root of the subtree
+     */
 
+    private BinaryNode<AnyType> insert(AnyType x, BinaryNode<AnyType> t) {
+        if (t == null)
+            return new BinaryNode<>(x, null, null);
+
+        int compareResult = x.compareTo(t.element);
+        if (compareResult < 0)
+            t.left = insert(x, t.left);
+        else if (compareResult > 0)
+            t.right = insert(x, t.right);
+        else
+            ; // duplicate; do nothing
+
+        return t;
     }
 
     private BinaryNode<AnyType> remove(AnyType x, BinaryNode<AnyType> t) {
+        if (t == null)
+            return t;
 
+        int compareResult = x.compareTo(t.element);
+        if (compareResult < 0) {
+            t.left = remove(x, t.left);
+        } else if (compareResult > 0) {
+            t.right = remove(x, t.right);
+        } else if (t.left != null && t.right != null) { // Two children
+            t.element = findMin(t.right).element; // replace with right child's min value
+            t.right = remove(t.element, t.right); // try to delete right child's min value
+        } else
+            t = (t.left != null) ? t.left : t.right;
+
+        return t;
     }
 
     private void printTree(BinaryNode<AnyType> t) {
 
+    }
+
+    private static class UnderflowException extends Throwable {
     }
 }
