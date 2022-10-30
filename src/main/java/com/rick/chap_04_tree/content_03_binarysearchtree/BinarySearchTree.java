@@ -1,5 +1,7 @@
 package com.rick.chap_04_tree.content_03_binarysearchtree;
 
+import com.rick.error.UnderFlowException;
+
 /**
  * @Author: Rick
  * @Date: 2022/10/13 15:29
@@ -40,15 +42,15 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         return contains(x, root);
     }
 
-    public AnyType findMin() throws UnderflowException {
+    public AnyType findMin() throws UnderFlowException {
         if (isEmpty())
-            throw new UnderflowException();
+            throw new UnderFlowException();
         return findMin(root).element;
     }
 
-    public AnyType findMax() throws UnderflowException {
+    public AnyType findMax() throws UnderFlowException {
         if (isEmpty())
-            throw new UnderflowException();
+            throw new UnderFlowException();
         return findMax(root).element;
     }
 
@@ -158,8 +160,5 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
 
     private void printTree(BinaryNode<AnyType> t) {
 
-    }
-
-    private static class UnderflowException extends Throwable {
     }
 }

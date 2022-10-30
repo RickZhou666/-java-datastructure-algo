@@ -5,8 +5,6 @@ package com.rick.chap_04_tree.content_04_avltree;
  * @Date: 2022/10/15 22:54
  */
 
-import com.rick.chap_04_tree.content_03_binarysearchtree.BinarySearchTree;
-
 /**
  * 1. 输入是AnyType
  * 2. AnyType 继承了Comparable接口，所以里面可以调用compareTo()方法
@@ -179,8 +177,5 @@ public class AvlTree<AnyType extends Comparable<? super AnyType>> {
         else if (t.left == null)
             return t;
         return findMin(t.left);
-    }
-
-    private static class UnderflowException extends Throwable {
     }
 }
